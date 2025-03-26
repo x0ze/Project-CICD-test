@@ -52,9 +52,6 @@ jobs:
       
       - name : Unit test
         run: npm run test:ci
-
-      - name: Coverage
-        run : 
       
       - name : Dependencies Audit
         run : npm audit
