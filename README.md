@@ -1,6 +1,7 @@
 # Vue-App CI/CD Workflow
 
 This project demonstrates a CI/CD pipeline using GitHub Actions for a Vue.js frontend and an Express backend. The pipeline is configured to run frontend and backend tests, perform dependency audits, and deploy the application when changes are pushed to the `main` branch.
+The web application comes from the GitHub repository [dymafr/cicd-projet1](https://github.com/dymafr/cicd-projet1), which is used solely to test GitHub Actions and the CI/CD pipeline.
 
 ## Workflow Overview
 
