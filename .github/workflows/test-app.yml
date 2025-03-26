@@ -1,0 +1,72 @@
+name: Vue-app
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test-frontend:
+    if: contains(github.event.head_commit.message, 'test-frontend')
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name : build & test server frontend
+        run: npm run build
+
+      - name : Linter
+        run: npm run lint
+      
+      - name: Install cypress dependencies
+        run : apt update && apt install -y xvfb libnss3 libatk1.0-0 libatk-bridge2.0-0 libdrm2 libgbm1 libasound2 libxcomposite1 libxdamage1 libxrandr2 libpango-1.0-0 libcups2 libxkbcommon0 libgtk-3-0
+
+      - name : start backend for test e2e
+        run: cd ../server && npm install && npm run start 
+      
+      - name : e2e test
+        run: npm run test:e2e
+
+      - name : Dependencies Audit
+        run : npm audit
+
+jobs:
+  test-backend:
+    if: contains(github.event.head_commit.message, 'test-backend')
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name : Linter
+        run: npm run lint
+      
+      - name : Unit test
+        run: npm run test:ci
+
+      - name: Coverage
+        run : 
+      
+      - name : Dependencies Audit
+        run : npm audit
+
+jobs:
+  deployment:
+    if: contains(github.event.head_commit.message, 'deploy')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name : Check code
+        run: npx eslint .
