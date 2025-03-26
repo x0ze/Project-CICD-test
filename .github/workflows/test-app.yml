@@ -17,25 +17,27 @@ jobs:
       - uses: actions/setup-node@v4
       
       - name: Install dependencies
-        run: npm install
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: ./client
 
-      - name : build & test server frontend
+      - name: Build & test server frontend
         run: npm run build
 
-      - name : Linter
+      - name: Linter
         run: npm run lint
       
       - name: Install cypress dependencies
-        run : sudo apt update && sudo apt install -y xvfb libnss3 libatk1.0-0 libatk-bridge2.0-0 libdrm2 libgbm1 libxcomposite1 libxdamage1 libxrandr2 libpango-1.0-0 libcups2 libxkbcommon0 libgtk-3-0
+        run: sudo apt update && sudo apt install -y xvfb libnss3 libatk1.0-0 libatk-bridge2.0-0 libdrm2 libgbm1 libxcomposite1 libxdamage1 libxrandr2 libpango-1.0-0 libcups2 libxkbcommon0 libgtk-3-0
 
-      - name : start backend for test e2e
+      - name: Start backend for e2e test
         run: cd ../server && npm install && npm run start &
       
-      - name : e2e test
+      - name: e2e test
         run: npm run test:e2e
 
-      - name : Dependencies Audit
-        run : npm audit
+      - name: Dependencies Audit
+        run: npm audit
 
   test-backend:
     if: contains(github.event.head_commit.message, 'test-backend')
@@ -49,16 +51,18 @@ jobs:
       - uses: actions/setup-node@v4
       
       - name: Install dependencies
-        run: npm install
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: ./server
 
-      - name : Linter
+      - name: Linter
         run: npm run lint
       
-      - name : Unit test
+      - name: Unit test
         run: npm run test:ci
       
-      - name : Dependencies Audit
-        run : npm audit
+      - name: Dependencies Audit
+        run: npm audit
 
   deployment:
     if: contains(github.event.head_commit.message, 'deploy')
@@ -67,5 +71,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name : Check code
+      - name: Check code
         run: npx eslint .
