@@ -15,9 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-
+      - uses: bahmutov/npm-install@v1
+      
       - name: Install dependencies
-        run: npm install
+        run: npm t
 
       - name : build & test server frontend
         run: npm run build
@@ -26,7 +27,7 @@ jobs:
         run: npm run lint
       
       - name: Install cypress dependencies
-        run : apt update && apt install -y xvfb libnss3 libatk1.0-0 libatk-bridge2.0-0 libdrm2 libgbm1 libasound2 libxcomposite1 libxdamage1 libxrandr2 libpango-1.0-0 libcups2 libxkbcommon0 libgtk-3-0
+        run : sudo apt update && sudo apt install -y xvfb libnss3 libatk1.0-0 libatk-bridge2.0-0 libdrm2 libgbm1 libasound2 libxcomposite1 libxdamage1 libxrandr2 libpango-1.0-0 libcups2 libxkbcommon0 libgtk-3-0
 
       - name : start backend for test e2e
         run: cd ../server && npm install && npm run start 
