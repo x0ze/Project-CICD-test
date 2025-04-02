@@ -86,5 +86,6 @@ jobs:
           sshpass -p '${{ secrets.AZUREPASSWORD }}' scp -r ./server ${{ env.SSH_USER }}@${{ env.SSH_IP }}:/var/www
           sshpass -p '${{ secrets.AZUREPASSWORD }}' scp -r ./client ${{ env.SSH_USER }}@${{ env.SSH_IP }}:/var/www
           sshpass -p '${{ secrets.AZUREPASSWORD }}' ssh ${{ env.SSH_USER }}@${{ env.SSH_IP }} "cd /var/www/server && npm install -omit=dev"
-          sshpass -p '${{ secrets.AZUREPASSWORD }}' ssh ${{ env.SSH_USER }}@${{ env.SSH_IP }} "cd /var/www/client && npm install && npm run dev &"
+          sshpass -p '${{ secrets.AZUREPASSWORD }}' ssh ${{ env.SSH_USER }}@${{ env.SSH_IP }} "cd /var/www/client && npm install"
           sshpass -p '${{ secrets.AZUREPASSWORD }}' ssh ${{ env.SSH_USER }}@${{ env.SSH_IP }} "cd /var/www/server && pm2 startOrRestart ecosystem.config.js --env production && pm2 save"
+          sshpass -p '${{ secrets.AZUREPASSWORD }}' ssh ${{ env.SSH_USER }}@${{ env.SSH_IP }} "cd /var/www/client && pm2 start 'npm run dev' --name client"
