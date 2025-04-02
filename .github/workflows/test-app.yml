@@ -79,7 +79,7 @@ jobs:
       
       - name: Install sshpass
         run: sudo apt install sshpass
-        
+        #test
       - name: Deploy to server
         run: |
           mkdir -p ~/.ssh 
