@@ -76,12 +76,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Install sshpass
+        run: apt install sshpass
+        
       - name: Deploy to server
         run: | 
           eval $(ssh-agent -s)  
-          ssh-add - <<< "${{ secrets.AZUREPASSWORD }}"
-          mkdir -p ~/.ssh 
-          ssh-keyscan -H $SSH_IP >> ~/.ssh/known_hosts 
-          scp -r ./server $SSH_USER@$SSH_IP:/var/www 
-          ssh $SSH_USER@$SSH_IP "cd /var/www/server && npm install -omit=dev" 
-          ssh $SSH_USER@$SSH_IP "cd /var/www/server && pm2 startOrRestart ecosystem.config.js --env production && pm2 save"
+          mkdir -p ~/.ssh
+          sshpass -p ${{ secrets.AZUREPASSWORD }} scp -r ./server $SSH_USER@$SSH_IP:/var/www 
+          sshpass -p ${{ secrets.AZUREPASSWORD }} ssh $SSH_USER@$SSH_IP "cd /var/www/server && npm install -omit=dev" 
+          sshpass -p ${{ secrets.AZUREPASSWORD }} ssh $SSH_USER@$SSH_IP "cd /var/www/server && pm2 startOrRestart ecosystem.config.js --env production && pm2 save"
