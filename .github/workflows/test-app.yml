@@ -82,8 +82,6 @@ jobs:
         
       - name: Deploy to server
         run: | 
-          eval $(ssh-agent -s)  
-          mkdir -p ~/.ssh
           sshpass -p ${{ secrets.AZUREPASSWORD }} scp -r ./server $SSH_USER@$SSH_IP:/var/www 
           sshpass -p ${{ secrets.AZUREPASSWORD }} ssh $SSH_USER@$SSH_IP "cd /var/www/server && npm install -omit=dev" 
           sshpass -p ${{ secrets.AZUREPASSWORD }} ssh $SSH_USER@$SSH_IP "cd /var/www/server && pm2 startOrRestart ecosystem.config.js --env production && pm2 save"
