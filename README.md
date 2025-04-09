@@ -65,7 +65,7 @@ git push origin main
 
 This will trigger the `deployment` job, which will deploy the application and check the code using ESLint.
 
-## Prerequisites
+## Prerequisite
 
 - Node.js and npm are required for both frontend and backend projects.
 - Cypress is required for end-to-end testing in the frontend job.
