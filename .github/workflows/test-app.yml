@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   test-frontend:
-    if: contains(github.event.head_commit.message, 'test-frontend')
+    if: ${{ contains(github.event.head_commit.message, 'test-frontend') || contains(github.event.head_commit.message, 'deploy') }} 
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -48,7 +48,7 @@ jobs:
         run: npm audit
 
   test-backend:
-    if: contains(github.event.head_commit.message, 'test-backend')
+    if: ${{ contains(github.event.head_commit.message, 'test-backend') || contains(github.event.head_commit.message, 'deploy') }} 
     runs-on: ubuntu-latest
     defaults:
       run:
